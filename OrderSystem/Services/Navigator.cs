@@ -28,7 +28,7 @@ namespace OrderSystem.Services
         {
             if (_mainForm == null)
             {
-                throw new InvalidOperationException("MainForm is not initialized");
+                throw new InvalidOperationException("MainForm er ikke initialiseret");
             }
             _mainForm.ShowView(view);
         }
@@ -37,6 +37,7 @@ namespace OrderSystem.Services
         {
             var orderView = _serviceProvider.GetRequiredService<OrderView>();
             orderView.SetNavigator(this);
+            orderView.SetLoggedInUser(_loggedInUser);
             ShowView(orderView);
         }
 
@@ -51,6 +52,7 @@ namespace OrderSystem.Services
         {
             var menuView = _serviceProvider.GetRequiredService<MenuView>();
             menuView.SetNavigator(this);
+            menuView.SetLoggedInUser(_loggedInUser);
             ShowView(menuView);
         }
     }

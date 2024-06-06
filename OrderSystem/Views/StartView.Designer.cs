@@ -42,6 +42,7 @@
             usernameText.Name = "usernameText";
             usernameText.Size = new Size(156, 23);
             usernameText.TabIndex = 0;
+            usernameText.KeyPress += usernameText_KeyPress;
             // 
             // passwordText
             // 
@@ -49,6 +50,8 @@
             passwordText.Name = "passwordText";
             passwordText.Size = new Size(156, 23);
             passwordText.TabIndex = 1;
+            passwordText.UseSystemPasswordChar = true;
+            passwordText.KeyPress += passwordText_KeyPress;
             // 
             // usernameLbl
             // 

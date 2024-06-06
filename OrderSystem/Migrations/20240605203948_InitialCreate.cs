@@ -52,12 +52,14 @@ namespace OrderSystem.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedBy = table.Column<int>(type: "int", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndedBy = table.Column<int>(type: "int", nullable: false),
-                    LastEditBy = table.Column<int>(type: "int", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastEdit = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    StartedBy = table.Column<int>(type: "int", nullable: true),
+                    EndedBy = table.Column<int>(type: "int", nullable: true),
+                    LastEditBy = table.Column<int>(type: "int", nullable: true),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Machine = table.Column<int>(type: "int", nullable: false)
+                    Machine = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -86,6 +88,11 @@ namespace OrderSystem.Migrations
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Orders_Users_StartedBy",
+                        column: x => x.StartedBy,
+                        principalTable: "Users",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
@@ -107,6 +114,11 @@ namespace OrderSystem.Migrations
                 name: "IX_Orders_Machine",
                 table: "Orders",
                 column: "Machine");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Orders_StartedBy",
+                table: "Orders",
+                column: "StartedBy");
         }
 
         /// <inheritdoc />

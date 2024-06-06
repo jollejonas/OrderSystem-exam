@@ -12,7 +12,7 @@ using OrderSystem.Data;
 namespace OrderSystem.Migrations
 {
     [DbContext(typeof(OrderSystemContext))]
-    [Migration("20240601215257_InitialCreate")]
+    [Migration("20240605203948_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -67,24 +67,30 @@ namespace OrderSystem.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("EndDate")
+                    b.Property<DateTime?>("EndDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("EndedBy")
+                    b.Property<int?>("EndedBy")
                         .HasColumnType("int");
 
-                    b.Property<int>("LastEditBy")
+                    b.Property<DateTime?>("LastEdit")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("LastEditBy")
                         .HasColumnType("int");
 
-                    b.Property<int>("Machine")
+                    b.Property<int?>("Machine")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("StartDate")
+                    b.Property<DateTime?>("StartDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<int?>("StartedBy")
+                        .HasColumnType("int");
 
                     b.Property<string>("Status")
                         .IsRequired()
@@ -99,6 +105,8 @@ namespace OrderSystem.Migrations
                     b.HasIndex("LastEditBy");
 
                     b.HasIndex("Machine");
+
+                    b.HasIndex("StartedBy");
 
                     b.ToTable("Orders");
                 });
@@ -176,20 +184,21 @@ namespace OrderSystem.Migrations
                     b.HasOne("OrderSystem.Models.User", "EndedByUser")
                         .WithMany()
                         .HasForeignKey("EndedBy")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("OrderSystem.Models.User", "LastEditByUser")
                         .WithMany()
                         .HasForeignKey("LastEditBy")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("OrderSystem.Models.Machine", "MachineObject")
                         .WithMany()
                         .HasForeignKey("Machine")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("OrderSystem.Models.User", "StartedByUser")
+                        .WithMany()
+                        .HasForeignKey("StartedBy");
 
                     b.Navigation("CreatedByUser");
 
@@ -198,6 +207,8 @@ namespace OrderSystem.Migrations
                     b.Navigation("LastEditByUser");
 
                     b.Navigation("MachineObject");
+
+                    b.Navigation("StartedByUser");
                 });
 #pragma warning restore 612, 618
         }

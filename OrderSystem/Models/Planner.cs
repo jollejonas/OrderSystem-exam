@@ -13,7 +13,7 @@ namespace OrderSystem.Models
             return $"Velkommen til {Name}! Din rolle er planlægger, du har derfor adgang til at redigere ordrer.";
         }
         public override bool CanCreateOrders() => false;
-        public override bool CanHandleOrders() => false;
+        public override bool CanHandleOrders() => true;
         public override bool CanPlanSchedule() => true;
     }
 }

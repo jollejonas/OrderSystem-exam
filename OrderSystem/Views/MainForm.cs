@@ -14,7 +14,6 @@ namespace OrderSystem.Views
             _navigator = navigator;
             InitializeComponent();
             _navigator.Initialize(this); // Ensure Navigator is initialized here
-            _navigator.ShowMenuView(); // Directly use the navigator to initialize MenuView
         }
 
         public void ShowView(Form view)
@@ -31,6 +30,7 @@ namespace OrderSystem.Views
         {
             _loggedInUser = user;
             _navigator.SetLoggedInUser(user);
+            _navigator.ShowMenuView(); // Directly use the navigator to initialize MenuView
         }
     }
 }

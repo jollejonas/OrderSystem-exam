@@ -70,6 +70,9 @@ namespace OrderSystem.Migrations
                     b.Property<int?>("EndedBy")
                         .HasColumnType("int");
 
+                    b.Property<DateTime?>("LastEdit")
+                        .HasColumnType("datetime2");
+
                     b.Property<int?>("LastEditBy")
                         .HasColumnType("int");
 
@@ -82,6 +85,9 @@ namespace OrderSystem.Migrations
 
                     b.Property<DateTime?>("StartDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<int?>("StartedBy")
+                        .HasColumnType("int");
 
                     b.Property<string>("Status")
                         .IsRequired()
@@ -96,6 +102,8 @@ namespace OrderSystem.Migrations
                     b.HasIndex("LastEditBy");
 
                     b.HasIndex("Machine");
+
+                    b.HasIndex("StartedBy");
 
                     b.ToTable("Orders");
                 });
@@ -185,6 +193,10 @@ namespace OrderSystem.Migrations
                         .HasForeignKey("Machine")
                         .OnDelete(DeleteBehavior.Restrict);
 
+                    b.HasOne("OrderSystem.Models.User", "StartedByUser")
+                        .WithMany()
+                        .HasForeignKey("StartedBy");
+
                     b.Navigation("CreatedByUser");
 
                     b.Navigation("EndedByUser");
@@ -192,6 +204,8 @@ namespace OrderSystem.Migrations
                     b.Navigation("LastEditByUser");
 
                     b.Navigation("MachineObject");
+
+                    b.Navigation("StartedByUser");
                 });
 #pragma warning restore 612, 618
         }

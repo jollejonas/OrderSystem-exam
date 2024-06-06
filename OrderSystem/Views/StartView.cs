@@ -25,16 +25,35 @@ namespace OrderSystem
 
             var user = _userController.ValidateUser(username, password);
 
-            if(user != null)
+            if (user != null)
             {
                 _loggedInUser = user;
                 this.Hide();
                 _mainForm.SetLoggedInUser(_loggedInUser);
+                MessageBox.Show(user.WelcomeMessage());
                 _mainForm.Show();
             }
             else
             {
-                MessageBox.Show("Invalid username or password", "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Forker brugernavn eller password", "Login fejlede", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void usernameText_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                e.Handled = true;
+                loginBtn.PerformClick();
+            }
+        }
+
+        private void passwordText_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                e.Handled = true;
+                loginBtn.PerformClick();
             }
         }
     }

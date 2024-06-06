@@ -1,4 +1,5 @@
-﻿using OrderSystem.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using OrderSystem.Data;
 using OrderSystem.Models;
 
 namespace OrderSystem.Controllers
@@ -12,7 +13,7 @@ namespace OrderSystem.Controllers
             _context = context;
         }
 
-        public IEnumerable<object> GetAllOrders()
+        public List<Order> GetAllOrders()
         {
             if(_context.Orders == null)
             {
@@ -20,7 +21,12 @@ namespace OrderSystem.Controllers
             }
             else
             {
-                return _context.Orders.ToList();
+                return _context.Orders
+                    .Include(o => o.MachineObject)
+                    .Include(o => o.CreatedByUser)
+                    .Include(o => o.EndedByUser)
+                    .Include(o => o.LastEditByUser)
+                    .ToList();
             }
         }
 
@@ -37,6 +43,52 @@ namespace OrderSystem.Controllers
 
             _context.Orders.Add(order);
             _context.SaveChanges();
+        }
+
+        public void UpdateOrder(int id, string status, int lastEditByUserId)
+        {
+            var order = _context.Orders.Find(id);
+
+            if(order != null)
+            {
+                order.Status = status;
+                order.LastEditBy = lastEditByUserId;
+                order.LastEdit = DateTime.Now;
+
+                _context.SaveChanges();
+            }
+        }
+
+        public void UpdateOrder(int id, string status, int endedByUserId, int lastEditByUserId)
+        {
+            var order = _context.Orders.Find(id);
+
+            if (order != null)
+            {
+                order.Status = status;
+                order.LastEditBy = lastEditByUserId;
+                order.LastEdit = DateTime.Now;
+                order.EndedBy = endedByUserId;
+                order.EndDate = DateTime.Now;
+                _context.SaveChanges();
+            }
+        }
+        public void UpdateOrder(int id, string name, int lastEditByUserId, string description, string status, DateTime startDate, int machineId)
+        {
+            var order = _context.Orders.Find(id);
+
+            if(order != null)
+            {
+                order.Name = name;
+                order.Description = description;
+                order.LastEditBy = lastEditByUserId;
+                order.LastEdit = DateTime.Now;
+                order.Status = status;
+                order.StartDate = startDate;
+                order.Machine = machineId;
+
+                _context.SaveChanges();
+            }
         }
     }
 }

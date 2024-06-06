@@ -37,6 +37,7 @@ namespace OrderSystem
                     services.AddTransient<MainForm>();
                     services.AddTransient<UserController>();
                     services.AddTransient<OrderController>();
+                    services.AddTransient<MachineController>();
                     services.AddTransient<Navigator>();
                 });
 

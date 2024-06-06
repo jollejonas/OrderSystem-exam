@@ -20,6 +20,8 @@ namespace OrderSystem.Models
         public DateTime? StartDate { get; set; }
         [DataType(DataType.Date)]
         public DateTime? EndDate { get; set; }
+        public DateTime? LastEdit { get; set; }
+        public int? StartedBy { get; set; }
         public int? EndedBy { get; set; }
         public int? LastEditBy { get; set; }
         public string Status { get; set; }
@@ -33,5 +35,7 @@ namespace OrderSystem.Models
         public virtual User EndedByUser { get; set; }
         [ForeignKey("LastEditBy")]
         public virtual User LastEditByUser { get; set; }
+        [ForeignKey("StartedBy")]
+        public virtual User StartedByUser { get; set; }
     }
 }
